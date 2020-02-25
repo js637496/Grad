@@ -65,7 +65,7 @@ triads n = [ (x,y,z) | x <- [0..n] , y <- [0..n] , z <- [0..n], (x * x) + (y * y
 -- It takes two arguments of type 'Int' and 'Char'.
 -- It returns type 'String'.
 replicate' :: Int -> Char -> String
-replicate' n c = take n (repeat c) 
+replicate' n c = [ c | x <- [1..n] ] 
 
 -- The 'replicate''' function using recursion replicates a character n amount of times
 -- It takes two arguments of type 'Int' and 'Char'.
