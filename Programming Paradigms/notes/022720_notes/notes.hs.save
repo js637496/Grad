@@ -1,0 +1,16 @@
+type Shopitem = (String, Int)
+type Basket = [Shopitem]
+
+addCartItems :: Basket -> Int
+addCartItems [] = 0
+addCartItems ((item,price):xs) = price + addCartItems xs
+
+
+
+
+
+
+
+
+
+ 

@@ -1,5 +1,5 @@
-wordA = "intention"
-wordB = "execution"
+wordA = "RELEVANT"
+wordB = "ELEPHANT"
 
 rows, cols = (len(wordA) + 1, len(wordB) + 1)
 editMatrix = [[0 for i in range(cols)] for j in range(rows)]
