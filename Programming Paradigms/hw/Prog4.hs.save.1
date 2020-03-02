@@ -1,0 +1,59 @@
+{- ##################################
+   JAMES SPEERS
+   03/1/2020
+   Homework 4.
+   ################################## -}
+
+module Prog4 where
+
+-- Shopping cart:  Items have Price, Bar Code and Name (Item).
+type Item = String
+type Price = Int
+type BarCode = Int
+type ShoppingCart = [BarCode]
+type Database = [(BarCode, Item, Price)]
+
+-- db1 is of type Database
+db1 :: Database
+db1 = [ (1234, "Hot Dog", 2),(4719, "Fries", 1),(3814, "Soda", 1),(1112, "Chips", 1),(1113, "Apple", 1) ]
+badDB :: Database
+badDB = [ (1234, "H", 2),(4232, "F", 1),(1234, "D", 1) ]
+--noDB :: Database
+--noDB = []
+
+-- cart1 is of type ShoppingCart
+cart1 :: ShoppingCart
+cart1 = [1234, 4719, 3814, 1112, 1113, 1234]
+badcart :: ShoppingCart
+badcart = [1234, 4719, 3814, 5555]
+
+-- The 'isValidBarCode' function checks where a barcode is present in a store's database
+-- It takes two arguements of type 'BarCode' and 'Database'.
+-- It returns type 'Bool'.
+isValidBarCode :: BarCode -> Database -> Bool
+isValidBarCode bc db = or [ x == bc | (x,_,_) <- db, x == bc ]
+
+-- The 'isValidDatabase' function checks whether each barcode in the databse is unique
+-- It takes one argument of type 'Database'.
+-- It returns type 'Bool'.
+isValidDatabase :: Database -> Bool
+isValidDatabase [] = True
+isValidDatabase db = and (isValidDBHelper db)
+
+-- The 'isValidDBHelper' function creates a list where if each bar code appears once is True otherwise False
+-- It takes one arguement of type 'Database'.
+-- It returns type '[Bool]'.
+isValidDBHelper :: Database -> [Bool]
+isValidDBHelper [] = [True]
+isValidDBHelper ((z,_,_):xs) = (sum ([ 1 | (y,_,_) <- xs, z == y]) == 0) : (isValidDBHelper xs) 
+
+-- The 'totalBill' function takes a shopping car and totals the cost of the items inside.
+-- It takes two arguments of type 'ShoppingCart' and 'Database'
+-- It returns type 'Int'
+totalBill :: ShoppingCart -> Database -> Int
+totalBill [] _  = 0
+totalBill s db
+  | not (isValidDatabase db) = error "Invalid database"
+  | not (and [ isValidBarCode bc db | bc <- s ]) = error "One or more items in cart is invalid"
+  | otherwise = sum [ p | (bc,_,p) <- db, sbc <- s, sbc == bc ]  
+
