@@ -83,6 +83,9 @@ getItem _ [] = error "Item not found in database"
 getItem bc ((x,y,_):xs)
   | bc == x 	= y
   | otherwise   = getItem bc xs
+--Changes 3/2 - NOPE Maybe?
+--data LicensePlate = IntPlate Int Int
+--		    | CharPlate [Char] Int
 
 type LicensePlate a = ([a], [Int])
 lp1 :: LicensePlate Int
@@ -93,6 +96,9 @@ lp3 :: LicensePlate Char
 lp3 = ("ABC",[1,2,3,4,5])
 lp4 ::  LicensePlate Char
 lp4 = ("ABCD",[1,2,3,4])
+
+--Changes 3/2 - NOPE Maybe?
+--InvalidPlate :: LicensePlate -> Bool
 
 
 -- The isValidPlate function returns true of 3 items in first part followed by 4 items in 2nd part/
