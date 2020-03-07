@@ -6,6 +6,8 @@
 
 module Prog4 where
 
+import Data.Char
+
 -- Shopping cart:  Items have Price, Bar Code and Name (Item).
 type Item = String
 type Price = Int
@@ -83,19 +85,20 @@ getItem _ [] = error "Item not found in database"
 getItem bc ((x,y,_):xs)
   | bc == x 	= y
   | otherwise   = getItem bc xs
+
 --Changes 3/2 - NOPE Maybe?
 --data LicensePlate = IntPlate Int Int
 --		    | CharPlate [Char] Int
-
-type LicensePlate a = ([a], [Int])
-lp1 :: LicensePlate Int
-lp1 = ([1,2,3],[4,5,6,7])
-lp2 :: LicensePlate Char
-lp2 = ("ABC",[4,5,6,7])
-lp3 :: LicensePlate Char
-lp3 = ("ABC",[1,2,3,4,5])
-lp4 ::  LicensePlate Char
-lp4 = ("ABCD",[1,2,3,4])
+-- old 2nd half
+--type LicensePlate a = ([a], [Int])
+--lp1 :: LicensePlate Int
+--lp1 = ([1,2,3],[4,5,6,7])
+--lp2 :: LicensePlate Char
+--lp2 = ("ABC",[4,5,6,7])
+--lp3 :: LicensePlate Char
+--lp3 = ("ABC",[1,2,3,4,5])
+--lp4 ::  LicensePlate Char
+--lp4 = ("ABCD",[1,2,3,4])
 
 --Changes 3/2 - NOPE Maybe?
 --InvalidPlate :: LicensePlate -> Bool
@@ -104,16 +107,16 @@ lp4 = ("ABCD",[1,2,3,4])
 -- The isValidPlate function returns true of 3 items in first part followed by 4 items in 2nd part/
 -- It takes one arg type LicensePlate
 -- It returns Bool
-isValidPlate :: LicensePlate a -> Bool
-isValidPlate (x, y)
-  | (length x) == 3 && (length y) == 4  = True
-  | otherwise				= False
+--isValidPlate :: LicensePlate a -> Bool
+--isValidPlate (x, y)
+--  | (length x) == 3 && (length y) == 4  = True
+--  | otherwise				= False
 
 -- The firstPartPlate function returns the first part of the plate
 -- It takes one arg LicesnePlate
 -- it returns type [a]
-firstPartPlate :: LicensePlate a -> [a]
-firstPartPlate (x, y) = x
+--firstPartPlate :: LicensePlate a -> [a]
+--firstPartPlate (x, y) = x
 
 -- The sumFirstPartPlate function sums the first part of the plate
 -- it takes tpye lisenceplate
@@ -121,3 +124,60 @@ firstPartPlate (x, y) = x
 -- gotta do some type of checks here
 --sumFirstPartPlate :: LicensePlate a -> Int
 --sumFirstPartPlate lp = sum (firstPartPlate lp)
+
+-- Current 2nd half
+data LicensePlate = IntPlate Int Int
+                  | CharPlate [Char] Int
+
+  deriving Show
+
+lp1 :: LicensePlate
+lp1 = IntPlate 123 4567
+
+lp2 :: LicensePlate
+lp2 = CharPlate "abc" 4567
+
+testlp1 :: LicensePlate
+testlp1 = IntPlate 001 4563 -- this is always going to be represented as 1 never 001, unless we use String
+testlp2 :: LicensePlate
+testlp2 = IntPlate 12 4234
+testlp3 :: LicensePlate
+testlp3 = IntPlate 123 123
+testlp4 :: LicensePlate
+testlp4 = CharPlate "ba" 1234
+testlp5 :: LicensePlate
+testlp5 = IntPlate 123 9999
+testlp6 :: LicensePlate
+testlp6 = CharPlate "edf" 9999
+
+-- The 'isValidPlate' function takes a LicensePlate and returns wheter it is valid.
+-- It takes one argument of type 'LicensePlate'
+-- It returns type 'Bool'
+isValidPlate :: LicensePlate -> Bool
+isValidPlate (IntPlate x y) = length (show x) == 3 && length (show y) == 4
+isValidPlate (CharPlate x y) = length x == 3 && length (show y) == 4
+
+-- The 'nextPlate' function takes a 'LicensePlate' and adds one to the 2nd half resetting to 1000 if 9999
+-- It takes one argument of type 'LicensePlate'
+-- It returns type 'LicensePlate'
+nextPlate :: LicensePlate -> LicensePlate
+nextPlate (IntPlate x y) 
+  | y == 9999 = IntPlate x 1000
+  | otherwise = IntPlate x (y+1)
+nextPlate (CharPlate x y)
+  | y == 9999 = CharPlate x 1000
+  | otherwise = CharPlate x (y+1)
+
+-- The 'sumFirstPartPlate' function takes a license plater and sumes the first part, Char are converetd to ascii int values
+-- It takes one argument of type 'LicensePlate'
+-- It returns type 'Int'
+sumFirstPartPlate :: LicensePlate -> Int
+sumFirstPartPlate (IntPlate x y)  = sum [ digitToInt n | n <- (show x) ]
+sumFirstPartPlate (CharPlate x y) = sum [ fromEnum n | n <- x ]
+
+-- The 'showPlate' function takes a 'LicensePlate' and returns the string equivilent with a - in the middle
+-- It takes one argument of type 'LicensePlate'
+-- It returns type 'String'
+showPlate :: LicensePlate -> String
+showPlate (IntPlate x y) = (show x) ++ "-" ++ (show y)
+showPlate (CharPlate x y) = x ++ "-" ++ (show y)
