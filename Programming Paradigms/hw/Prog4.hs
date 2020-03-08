@@ -1,4 +1,4 @@
-{- ##################################
+git{- ##################################
    JAMES SPEERS
    03/1/2020
    Homework 4.
@@ -86,46 +86,7 @@ getItem bc ((x,y,_):xs)
   | bc == x 	= y
   | otherwise   = getItem bc xs
 
---Changes 3/2 - NOPE Maybe?
---data LicensePlate = IntPlate Int Int
---		    | CharPlate [Char] Int
--- old 2nd half
---type LicensePlate a = ([a], [Int])
---lp1 :: LicensePlate Int
---lp1 = ([1,2,3],[4,5,6,7])
---lp2 :: LicensePlate Char
---lp2 = ("ABC",[4,5,6,7])
---lp3 :: LicensePlate Char
---lp3 = ("ABC",[1,2,3,4,5])
---lp4 ::  LicensePlate Char
---lp4 = ("ABCD",[1,2,3,4])
 
---Changes 3/2 - NOPE Maybe?
---InvalidPlate :: LicensePlate -> Bool
-
-
--- The isValidPlate function returns true of 3 items in first part followed by 4 items in 2nd part/
--- It takes one arg type LicensePlate
--- It returns Bool
---isValidPlate :: LicensePlate a -> Bool
---isValidPlate (x, y)
---  | (length x) == 3 && (length y) == 4  = True
---  | otherwise				= False
-
--- The firstPartPlate function returns the first part of the plate
--- It takes one arg LicesnePlate
--- it returns type [a]
---firstPartPlate :: LicensePlate a -> [a]
---firstPartPlate (x, y) = x
-
--- The sumFirstPartPlate function sums the first part of the plate
--- it takes tpye lisenceplate
--- it returns int 
--- gotta do some type of checks here
---sumFirstPartPlate :: LicensePlate a -> Int
---sumFirstPartPlate lp = sum (firstPartPlate lp)
-
--- Current 2nd half
 data LicensePlate = IntPlate Int Int
                   | CharPlate [Char] Int
 
