@@ -39,6 +39,9 @@ s6 = Set [1,2,3]
 s7 :: Set
 s7 = Set []
 
+s8 :: Set
+s8 = Set [1]
+
 -- The 'ins' function adds an item to a set
 -- It takes two arguments of type 'Int' and 'Set'
 -- It returns tpye 'Set'
@@ -80,6 +83,12 @@ equal _ EmptySet = False
 equal EmptySet _ = False
 equal (Set x) (Set y) = (iSort' x) == (iSort' y)
 
+--Helper function to convert Set [] to EmptySet
+convertToEmptySet :: Set -> Set
+convertToEmptySet (EmptySet) = (EmptySet)
+convertToEmptySet (Set []) = (EmptySet)
+convertToEmptySet (Set n) = (Set n)
+
 -- The 'saferemove' function removes an item form a set
 -- It takes two arguments 'Int' and 'Set'
 -- It returns type 'Maybe Set'
@@ -87,7 +96,7 @@ saferemove :: Int -> Set -> Maybe Set
 saferemove n (EmptySet) = Nothing
 saferemove n (Set xs)
   | member n (Set xs) == False = Nothing
-  | otherwise 		       = Just (Set ([x | x <- xs, x /= n]))
+  | otherwise 		       = Just (convertToEmptySet (Set ([x | x <- xs, x /= n])))
 
 -- The 'countLetters' function takes three strings as input and returns and Int list of the strings lengths
 -- It returns type IO [Int]
