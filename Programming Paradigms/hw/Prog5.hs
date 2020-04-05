@@ -10,13 +10,18 @@ data Set = Set [Int]
            | EmptySet
   deriving Show
 
+--Helper function to convert Set [] to EmptySet
+convertToEmptySet :: Set -> Set
+convertToEmptySet (EmptySet) = (EmptySet)
+convertToEmptySet (Set []) = (EmptySet)
+converToEmptySet (Set n) = (Set n)
+
 -- The 'member' function checks where a given item is present in a given set.
 -- It takes two arguments of type 'Int' and 'Set'.
 -- It returns type 'Bool'
 member :: Int -> Set -> Bool
 member n (EmptySet) = False
-member n (Set []) = False
-member n (Set (x:xs)) = x == n || (member n (Set xs))
+member n (Set (x:xs)) = x == n || (member n (convertToEmptySet (Set xs)))
 
 s1 :: Set
 s1 = Set [1,2,3,4,5,6]
@@ -43,8 +48,8 @@ s7 = Set []
 -- It takes two arguments of type 'Int' and 'Set'
 -- It returns tpye 'Set'
 ins :: Int -> Set -> Set
+ins n (Set []) = ins n (EmptySet)
 ins n (EmptySet) = Set [n]
-ins n (Set []) = Set [n]
 ins n (Set xs)
   | member n (Set xs) = (Set xs)
   | otherwise 	      = (Set (n : xs))
@@ -70,9 +75,12 @@ iSort' (x:xs) = ins' x (iSort' xs)
 -- It takes two arguments of type 'Set' and 'Set'
 -- It returns type 'Bool'
 equal :: Set -> Set -> Bool
+equal (Set []) (Set []) = equal (EmptySet) (EmptySet)
+equal (Set x) (Set []) = equal (Set x) (EmptySet)
+equal (Set []) (Set x) = equal (EmptySet) (Set x)
+equal (EmptySet) (Set [] = equal (EmptySet) (EmptySet)
+equal (Set []) (EmptySet) = equal (EmptySet) (EmptySet)
 equal EmptySet EmptySet = True
-equal (Set []) EmptySet = True
-equal EmptySet (Set []) = True
 equal _ EmptySet = False
 equal EmptySet _ = False
 equal (Set x) (Set y) = (iSort' x) == (iSort' y)
