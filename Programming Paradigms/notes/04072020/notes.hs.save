@@ -1,0 +1,20 @@
+data Nat = Zero | Succ Nat
+
+nat2Int :: Nat -> Int 
+nat2Int Zero = 0
+nat2Int (Succ n) = 1 + nat2Int n
+
+int2Nat Int -> Nat
+int2Nat 0 = Zero
+int2Nat n = Succ (int2Nat (n-1))
+
+add :: Nat -> Nat -> Nat
+--add m n = int2Nat ((nat2Int m) + (nat2Int n))
+add Zero n = n
+add (Succ m) n = Succ (add m n) 
+
+-- trace 2+1 = 3
+-- add (Succ (Succ Zero))  (Succ Zero) -- (add 2 1)
+-- Succ (add (Succ Zero) (Succ Zero))  -- Succ (add 1 1)
+-- Succ (Succ (add Zero (Succ Zero)))  -- Succ (Succ (add 0 1))
+-- Sycc (Succ (Succ Zero)) -- 3
