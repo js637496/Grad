@@ -84,7 +84,7 @@ pre (Node (x:xs)) = pre (x) ++ pre (Node xs)
 --depthK returns all leaf values at depth, leafs after root node are 0
 --it returns [a]
 depthK :: Int -> Tree a -> [a]
-depthK n (Leaf x) = if n == (-1) then [x] else []
+depthK n (Leaf x) = if n == (0) then [x] else []
 depthK n (Node []) = []
 depthK n (Node (x:xs)) = depthK (n-1) (x) ++ depthK (n) (Node (xs))
 
@@ -113,9 +113,9 @@ value2 (Div x y)
 
 instance Show Expr where
   show (Val x) = show x
-  show (Add x y) = show (value1 x) ++ "+" ++ show (value1 y)
-  show (Sub x y) = show (value1 x) ++ "-" ++ show (value1 y)
-  show (Mul x y) = show (value1 x) ++ "*" ++ show (value1 y)
-  show (Div x y) = show (value1 x) ++ "/" ++ show (value1 y)
+  show (Add x y) = "(" ++ show (x) ++ "+" ++ show (y) ++ ")"
+  show (Sub x y) = "(" ++ show (x) ++ "-" ++ show (y) ++ ")"
+  show (Mul x y) = "(" ++ show (x) ++ "*" ++ show (y) ++ ")"
+  show (Div x y) = "(" ++ show (x) ++ "/" ++ show (y) ++ ")"
 
 
