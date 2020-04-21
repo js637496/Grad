@@ -46,6 +46,12 @@ t5 = Node []
 tt :: Tree Int 
 tt = Node [Node [Leaf 1, Leaf 2], Leaf 3]
 
+
+
+t12:: Tree Int
+
+t12 = Node[Node [Leaf 4, Leaf 5], Node [Node [Leaf 1, Leaf 2], Node [Leaf 3, Leaf 7]]]
+
 t9 :: Tree Int
 t9 = Node [Leaf 1, Node []]
 
@@ -63,18 +69,53 @@ t11 = Node [Node [Leaf 1], Leaf 2, Node [Leaf 3, Node [Leaf 4]]]
 -- It takes one argument of type 'Tree a'
 -- It returns type 'Bool'
 isBinary :: Tree a -> Bool
-isBinary (Leaf _) = False
+isBinary (Leaf _) = True
 isBinary (Node []) = False
-isBinary (Node [Leaf _]) = False
-isBinary (Node [Leaf _, Leaf _]) = True
-isBinary (Node [Leaf _, Node []]) = True
-isBinary (Node [Node [], Leaf _]) = True
-isBinary (Node [Node [], Node []]) = True
-isBinary (Node (x:xs)) = length (x:xs) == 2 && isBinary (x)
-
+isBinary (Node (x:y:zs)) = length (x:y:zs) == 2 && isBinary (x) && isBinary (y)
+isBinary (Node (x:xs)) = False
 -- The 'pre' function returns the preorder traversal of thenodes in a tree\
 -- it Takes a Tree a and returns [a]
 pre :: Tree a -> [a]
 pre (Leaf v) = [v]
 pre (Node []) = []
 pre (Node (x:xs)) = pre (x) ++ pre (Node xs) 
+
+
+--depthK returns all leaf values at depth, leafs after root node are 0
+--it returns [a]
+depthK :: Int -> Tree a -> [a]
+depthK n (Leaf x) = if n == (-1) then [x] else []
+depthK n (Node []) = []
+depthK n (Node (x:xs)) = depthK (n-1) (x) ++ depthK (n) (Node (xs))
+
+
+data Expr= Val Int
+             | Add Expr Expr
+             | Sub Expr Expr
+             | Mul Expr Expr
+             | Div Expr Expr
+
+value1 :: Expr -> Int
+value1 (Val x) = x
+value1 (Add x y) = (value1 x) + (value1 y)
+value1 (Sub x y) = (value1 x) - (value1 y)
+value1 (Mul x y) = (value1 x) * (value1 y)
+value1 (Div x y) = div (value1 x) (value1 y)
+
+value2 :: Expr -> Maybe Int
+value2 (Val x) = Just x
+value2 (Add x y) = Just ((value1 x) + (value1 y))
+value2 (Sub x y) = Just ((value1 x) - (value1 y))
+value2 (Mul x y) = Just ((value1 x) * (value1 y))
+value2 (Div x y) 
+  | (value1 y) == 0 	= Nothing
+  | otherwise 	= Just (div (value1 x) (value1 y))
+
+instance Show Expr where
+  show (Val x) = show x
+  show (Add x y) = show (value1 x) ++ "+" ++ show (value1 y)
+  show (Sub x y) = show (value1 x) ++ "-" ++ show (value1 y)
+  show (Mul x y) = show (value1 x) ++ "*" ++ show (value1 y)
+  show (Div x y) = show (value1 x) ++ "/" ++ show (value1 y)
+
+
