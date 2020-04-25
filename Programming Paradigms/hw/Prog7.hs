@@ -43,7 +43,7 @@ value (If b x y) = if (bEval b) then (value x) else (value y)
 -- It takes one argument of type [Int]
 -- It returns type Int
 sumSqNeg :: (Num a, Ord a) => [a] -> a
-sumSqNeg xs = foldr (+) 0 (filter (<0) xs)
+sumSqNeg xs = foldr (+) 0 (map (^2) (filter (<0) xs))
 
 -- The containing function checks if each element in the first list is also in the 2nd list
 -- It takes two arguments of type [a] and [a]
