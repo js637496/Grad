@@ -88,4 +88,4 @@ lengths xs = map (length) xs
 --max' :: Ord a => [a] -> a
 max' :: Ord a => [a] -> a
 max' [] = error "dont use an empty list"
-max' xs = foldr1 (max) xs
+max' (x:xs) = foldr (max) x xs
