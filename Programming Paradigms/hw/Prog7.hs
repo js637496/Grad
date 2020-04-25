@@ -42,7 +42,7 @@ value (If b x y) = if (bEval b) then (value x) else (value y)
 -- The sumSqNeg function computes the sum of squares of negatives, must use one or more map, filter, foldr
 -- It takes one argument of type [Int]
 -- It returns type Int
-sumSqNeg :: (Num a, Ord a) => [a] -> a
+sumSqNeg :: [Int] -> Int
 sumSqNeg xs = foldr (+) 0 (map (^2) (filter (<0) xs))
 
 -- The containing function checks if each element in the first list is also in the 2nd list
